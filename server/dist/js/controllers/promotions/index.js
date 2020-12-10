@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import Promotions from '../../models/promotion.js';
 import faker from 'faker';
+const dataLength = 10000;
 const getPromotions = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const promotions = yield Promotions.find();
@@ -21,7 +22,7 @@ const getPromotions = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 const createPromotion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let promotionItems = [];
-        for (let i = 0; i < 10000; i++) {
+        for (let i = 0; i < dataLength; i++) {
             let promotionDoc = new Promotions({
                 promotionName: faker.internet.userName(),
                 type: faker.random.word(),
@@ -45,12 +46,12 @@ const createPromotion = (req, res) => __awaiter(void 0, void 0, void 0, function
 const updatePromotion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { params: { id }, body, } = req;
-        const updateTodo = yield Promotions.findByIdAndUpdate({ _id: id }, body);
-        const allTodos = yield Promotions.find();
+        const updatePromotion = yield Promotions.findByIdAndUpdate({ _id: id }, body);
+        const allPromotions = yield Promotions.find();
         res.status(200).json({
             message: 'Promotion updated',
-            todo: updateTodo,
-            todos: allTodos,
+            promotion: updatePromotion,
+            promotions: allPromotions,
         });
     }
     catch (error) {

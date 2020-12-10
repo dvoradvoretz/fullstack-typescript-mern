@@ -163,6 +163,9 @@ const VirtualizedTable = withStyles(styles)(PromotionsTable);
 export default function ReactVirtualizedTable(promotions: any) {
     const rows = promotions.promotions;
     const rowCount = rows && rows.length? rows.length : 0;
+    // TODO: add a form component for getting dynamic table structure by the user.
+    // User will be able to add / delete fields and configure the type.
+    // The form will generate the tableStructure object which is the table structure and headers.
     const tableStructure = [
         {
             width: 200,
