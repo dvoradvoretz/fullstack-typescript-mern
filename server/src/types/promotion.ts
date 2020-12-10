@@ -6,7 +6,4 @@ export interface IPromotion extends Document {
     startDate: string
     endDate: string
     userGroupName: string
-    _id: string
-    __v: number
-    id: string
 }

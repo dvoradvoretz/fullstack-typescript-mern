@@ -14,7 +14,6 @@ const getPromotions = async (req: Request, res: Response): Promise<void> => {
 
 const createPromotion = async (req: Request, res: Response): Promise<void> => {
         try {
-            console.log('*************    create Promotions       ******************');
             let promotionItems: IPromotion[] = [];
             for (let i = 0; i < 10000; i++) {
                 let promotionDoc = new Promotions({
@@ -23,15 +22,12 @@ const createPromotion = async (req: Request, res: Response): Promise<void> => {
                     startDate: faker.random.word(),
                     endDate: faker.random.word(),
                     userGroupName: faker.company.companyName()
-            });
+                });
                 promotionItems.push(promotionDoc);
             }
-            console.log('promotionItems', promotionItems)
-               // await promotionItem.save();
-               await Promotions.insertMany(promotionItems);
+            await Promotions.insertMany(promotionItems);
 
             const allPromotions: IPromotion[] = await Promotions.find();
-            // console.log('all->  \n', allPromotions);
             res.status(201).json({
                 message: 'Promotion added',
                 promotions: allPromotions

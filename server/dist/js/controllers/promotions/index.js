@@ -20,7 +20,6 @@ const getPromotions = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 const createPromotion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log('*************    create Promotions       ******************');
         let promotionItems = [];
         for (let i = 0; i < 10000; i++) {
             let promotionDoc = new Promotions({
@@ -32,11 +31,8 @@ const createPromotion = (req, res) => __awaiter(void 0, void 0, void 0, function
             });
             promotionItems.push(promotionDoc);
         }
-        console.log('promotionItems', promotionItems);
-        // await promotionItem.save();
         yield Promotions.insertMany(promotionItems);
         const allPromotions = yield Promotions.find();
-        // console.log('all->  \n', allPromotions);
         res.status(201).json({
             message: 'Promotion added',
             promotions: allPromotions
