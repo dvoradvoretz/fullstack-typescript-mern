@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "outDir": "dist/js",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["src/types/*.ts", "node_modules", ".vscode"]
+}
+
+//  "compilerOptions": {
+//    "target": "es6",
+//    "module": "commonjs",
+//    "outDir": "dist/js",
+//    "rootDir": "src",
+//    "strict": true,
+//    "esModuleInterop": true,
+//    "forceConsistentCasingInFileNames": true,
+//  },
+//  "include": ["src/**/*"],
+//  "exclude": ["src/types/*.ts", "node_modules", ".vscode"]
+//}

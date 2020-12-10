@@ -1,0 +1,7 @@
+{
+  "env": {
+    "MONGO_USER": "dvoraDvoretz",
+    "MONGO_PASSWORD": "0304natan",
+    "MONGO_DB": "promotions"
+  }
+}
