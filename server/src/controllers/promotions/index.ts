@@ -14,32 +14,31 @@ const getPromotions = async (req: Request, res: Response): Promise<void> => {
 };
 
 const createPromotion = async (req: Request, res: Response): Promise<void> => {
-        try {
-            let promotionItems: IPromotion[] = [];
-            for (let i = 0; i < dataLength; i++) {
-                let promotionDoc = new Promotions({
-                    promotionName: faker.internet.userName(),
-                    type: faker.random.word(),
-                    startDate: faker.random.word(),
-                    endDate: faker.random.word(),
-                    userGroupName: faker.company.companyName()
-                });
-                promotionItems.push(promotionDoc);
-            }
-            await Promotions.insertMany(promotionItems);
-
-            const allPromotions: IPromotion[] = await Promotions.find();
-            res.status(201).json({
-                message: 'Promotion added',
-                promotions: allPromotions
+    try {
+        const bulk = await Promotions.collection.initializeUnorderedBulkOp();
+        for (let i = 0; i < dataLength; i++) {
+            let promotionDoc = new Promotions({
+                promotionName: faker.internet.userName(),
+                type: faker.random.word(),
+                startDate: faker.random.word(),
+                endDate: faker.random.word(),
+                userGroupName: faker.company.companyName()
             });
+            bulk.insert(promotionDoc);
         }
-        catch
-            (error) {
-            throw error;
-        }
+        bulk.execute(() => {
+        });
+        const allPromotions: IPromotion[] = await Promotions.find();
+        res.status(201).json({
+            message: 'Promotion added',
+            promotions: allPromotions
+        });
     }
-;
+    catch
+        (error) {
+        throw error;
+    }
+};
 
 const updatePromotion = async (req: Request, res: Response): Promise<void> => {
     try {

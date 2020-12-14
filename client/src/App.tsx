@@ -25,7 +25,8 @@ const App: React.FC = () => {
                 if (status !== 201) {
                     throw new Error('Error! Promotions Not Save')
                 }
-                setPromotions(data)
+                setPromotions(data);
+                fetchPromotions();
             })
             .catch((err: any) => console.log(err))
     };
@@ -44,7 +45,7 @@ const App: React.FC = () => {
     return (
         <main className='App'>
             <h1>Promotions</h1>
-            {promotions ? (
+            {promotions && promotions.length ? (
                 <ReactVirtualizedTable promotions={promotions}>
                 </ReactVirtualizedTable>
             ) : (

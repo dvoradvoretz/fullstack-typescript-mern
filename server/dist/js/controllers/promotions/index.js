@@ -21,7 +21,7 @@ const getPromotions = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 const createPromotion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let promotionItems = [];
+        const bulk = yield Promotions.collection.initializeUnorderedBulkOp();
         for (let i = 0; i < dataLength; i++) {
             let promotionDoc = new Promotions({
                 promotionName: faker.internet.userName(),
@@ -30,9 +30,10 @@ const createPromotion = (req, res) => __awaiter(void 0, void 0, void 0, function
                 endDate: faker.random.word(),
                 userGroupName: faker.company.companyName()
             });
-            promotionItems.push(promotionDoc);
+            bulk.insert(promotionDoc);
         }
-        yield Promotions.insertMany(promotionItems);
+        bulk.execute(() => {
+        });
         const allPromotions = yield Promotions.find();
         res.status(201).json({
             message: 'Promotion added',
