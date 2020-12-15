@@ -1,12 +1,29 @@
 import React, {useEffect, useState} from 'react'
+import {makeStyles, Theme, createStyles} from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import CreatePromotions from './components/CreatePromotions'
 import ReactVirtualizedTable from "./components/PromotionsTable";
 import {createPromotions, getPromotions} from './API'
+
+
+
 // TODO: implement delete / edit / duplicate button on virtualized table row
 // import {deletePromotion} from './API'
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            width: '100%',
+            '& > * + *': {
+                marginTop: theme.spacing(2),
+            },
+        },
+    }),
+);
 const App: React.FC = () => {
-    const [promotions, setPromotions] = useState();
+    const classes = useStyles();
+    const [promotions, setPromotions ] = useState();
+    const [loading, isLoading ] = useState(true);
     useEffect(() => {
         fetchPromotions()
     }, []);
@@ -14,11 +31,17 @@ const App: React.FC = () => {
         getPromotions()
             .then(({data: {promotions}}: IPromotion[] | any) => {
                 setPromotions(promotions);
+                if (!promotions.length) {
+                    isLoading(false);
+                }
             })
-            .catch((err: Error) => console.log(err))
-
+            .catch((err: Error) => {
+                console.log(err);
+                isLoading(false)
+            })
     };
     const handleSavePromotions = (e: any): void => {
+        isLoading(true);
         e.preventDefault();
         createPromotions()
             .then(({status, data}) => {
@@ -28,7 +51,9 @@ const App: React.FC = () => {
                 setPromotions(data);
                 fetchPromotions();
             })
-            .catch((err: any) => console.log(err))
+            .catch((err: any) => {
+                console.log(err);
+            })
     };
     // TODO: implement delete / edit / duplicate button on virtualized table row
     // const handleDeletePromotion = (_id: string): void => {
@@ -48,9 +73,13 @@ const App: React.FC = () => {
             {promotions && promotions.length ? (
                 <ReactVirtualizedTable promotions={promotions}>
                 </ReactVirtualizedTable>
-            ) : (
-                <CreatePromotions savePromotions={handleSavePromotions}/>
-            )}
+            ) : !loading ?
+                    <CreatePromotions savePromotions={handleSavePromotions}/>  :
+                <div className={classes.root}>
+                    <LinearProgress/>
+                    <LinearProgress color="secondary"/>
+                    <h2>Loading...</h2>
+                </div>}
         </main>
     )
 };

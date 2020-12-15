@@ -25,7 +25,7 @@ const CreatePromotions: React.FC<Props> = ({ savePromotions }) => {
                 className={classes.button}
                 startIcon={<CloudUploadIcon />}
             >
-                Create Promotions table
+                Generate 10000 new Promotions
             </Button>
         </div>
     )
