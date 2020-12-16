@@ -31,9 +31,7 @@ const App: React.FC = () => {
         getPromotions()
             .then(({data: {promotions}}: IPromotion[] | any) => {
                 setPromotions(promotions);
-                if (!promotions.length) {
-                    isLoading(false);
-                }
+                promotions.length ?  isLoading(true) :  isLoading(false);
             })
             .catch((err: Error) => {
                 console.log(err);

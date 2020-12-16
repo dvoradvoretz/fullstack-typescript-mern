@@ -32,13 +32,13 @@ const createPromotion = (req, res) => __awaiter(void 0, void 0, void 0, function
             });
             bulk.insert(promotionDoc);
         }
-        bulk.execute(() => {
-        });
-        const allPromotions = yield Promotions.find();
-        res.status(201).json({
-            message: 'Promotion added',
-            promotions: allPromotions
-        });
+        bulk.execute((() => __awaiter(void 0, void 0, void 0, function* () {
+            let allPromotions = yield Promotions.find();
+            res.status(201).json({
+                message: 'Promotion added',
+                promotions: allPromotions
+            });
+        })));
     }
     catch (error) {
         throw error;

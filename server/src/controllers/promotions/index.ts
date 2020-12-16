@@ -26,13 +26,13 @@ const createPromotion = async (req: Request, res: Response): Promise<void> => {
             });
             bulk.insert(promotionDoc);
         }
-        bulk.execute(() => {
-        });
-        const allPromotions: IPromotion[] = await Promotions.find();
-        res.status(201).json({
-            message: 'Promotion added',
-            promotions: allPromotions
-        });
+        bulk.execute(( async () => {
+            let allPromotions: IPromotion[] = await Promotions.find();
+            res.status(201).json({
+                message: 'Promotion added',
+                promotions: allPromotions
+            });
+        }));
     }
     catch
         (error) {
